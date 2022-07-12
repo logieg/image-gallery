@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url('public/fonts/roboto.ttf');
+}
+@font-face {
+  font-family: 'Caviar Dreams';
+  src: url('public/fonts/caviar-dreams.ttf');
+}
+@font-face {
+  font-family: 'Louis George Cafe';
+  src: url('public/fonts/louis-george-cafe.ttf');
+}
+
+body {
+  background-color: #111;
+  color: #e8e8e8;
+  font-family: 'Louis George Cafe';
+  margin: 0;
+}
+#__next, #__next>div {
+  position: absolute;
+  inset: 0 0 0 0;
+}
