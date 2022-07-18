@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
   font-family: 'Roboto';
   src: url('public/fonts/roboto.ttf');
@@ -11,13 +12,22 @@
   src: url('public/fonts/louis-george-cafe.ttf');
 }
 
+/* Main styles */
 body {
   background-color: #111;
   color: #e8e8e8;
   font-family: 'Louis George Cafe';
   margin: 0;
 }
-#__next, #__next>div {
+h1, h2, h3, h4 { margin: 10px 0px; }
+h1 { font-size: 36px; }
+h2 { font-size: 30px; }
+h3 { font-size: 26px; }
+h4 { font-size: 22px; }
+p { font-size: 18px; }
+
+/* NextJS layout fix */
+#__next {
   position: absolute;
   inset: 0 0 0 0;
 }

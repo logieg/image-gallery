@@ -1,10 +1,10 @@
-const config = require('./gallery-config.json');
+const config = require('../gallery-config.json');
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 
 // Absolute root directory for images, from which all image paths are relative
-const rootDir = path.join(process.cwd(), config.public ? 'public/' : '', config.rootDir);
+const rootDir = path.join(process.cwd(), config.public ? 'public/' : '', config.sourceDir);
 
 console.log('[ Thumbnail Generation ]');
 console.log('Source: ', rootDir);
