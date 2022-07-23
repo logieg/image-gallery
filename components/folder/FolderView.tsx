@@ -32,6 +32,7 @@ const FolderView = ({
           name={file.name}
           isDirectory={file.isDirectory}
           path={path}
+          key={file.name}
         />
       ))}
     </div>

@@ -4,7 +4,11 @@ const path = require('path');
 const sharp = require('sharp');
 
 // Absolute root directory for images, from which all image paths are relative
-const rootDir = path.join(process.cwd(), config.public ? 'public/' : '', config.sourceDir);
+const rootDir = path.join(
+  (config.sourceDir.startsWith('/') || config.sourceDir.indexOf(':') === 1) ? '' : process.cwd(),
+  config.public ? 'public/' : '',
+  config.sourceDir
+);
 
 console.log('[ Thumbnail Generation ]');
 console.log('Source: ', rootDir);
@@ -27,7 +31,7 @@ function processAll(relDir) {
 function makeThumbnail(filePath) {
   // Filetype check
   const ext = filePath.slice(filePath.lastIndexOf('.') + 1).toLowerCase();
-  if (['png', 'jpg', 'webp', 'gif'].indexOf(ext) < 0)
+  if (config.fileTypes.indexOf(ext) < 0)
     return;
 
   const fullPath = path.join(rootDir, filePath);

@@ -1,8 +1,10 @@
 import fs from "fs";
 import path from "path";
+import { useRouter } from "next/router";
 import HorizontalSection from "../components/common/HorizontalSection";
 import MainLayout from "../components/common/layout/MainLayout";
 import FolderView from "../components/folder/FolderView";
+import ImageView from "../components/image/ImageView";
 import config from '../gallery-config.json';
 
 interface HomeProps {
@@ -20,6 +22,19 @@ interface HomeProps {
 }
 
 export default function Home({ folderPath, folderList, fileName, fileData }) {
+  const router = useRouter();
+
+  const closeImageView = () => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { d: router.query.d, f: undefined }
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   return (
     <MainLayout>
       <HorizontalSection>
@@ -27,17 +42,25 @@ export default function Home({ folderPath, folderList, fileName, fileData }) {
       </HorizontalSection>
       <HorizontalSection width='90%'>
         <FolderView path={folderPath} list={folderList} />
-        {fileData ? (
-          <img src={fileData} alt={fileName} style={{ maxWidth: '800px' }} />
-        ) : ''}
       </HorizontalSection>
+      {fileData && router.query.f?.length > 0 ? (
+        <ImageView
+          fileName={fileName}
+          fileData={fileData}
+          onClose={closeImageView}
+        />
+      ) : ''}
     </MainLayout>
   );
 }
 
 export async function getServerSideProps(context): Promise<{props: HomeProps}> {
   // Absolute root dir where the images are stored
-  const rootDir = path.join(process.cwd(), config.public ? 'public/' : '', config.sourceDir);
+  const rootDir = path.join(
+    (config.sourceDir.startsWith('/') || config.sourceDir.indexOf(':') === 1) ? '' : process.cwd(),
+    config.public ? 'public/' : '',
+    config.sourceDir
+  );
 
   // Get folder data
   const folderPath = context.query.d as string ?? '';
@@ -57,8 +80,13 @@ export async function getServerSideProps(context): Promise<{props: HomeProps}> {
 
   return { props: {
     folderPath,
-    // Convert folderList from fs.Dirent to client-usable objects
     folderList: folderList
+      // Filter to only folders and approved file types
+      .filter(item => {
+        const ext = item.name.slice(item.name.lastIndexOf('.') + 1);
+        return config.fileTypes.includes(ext) || item.isDirectory();
+      })
+      // Convert from fs.Dirent to client-usable objects
       .map(item => ({
         name: item.name,
         isDirectory: item.isDirectory()
