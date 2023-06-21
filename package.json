@@ -1,20 +1,22 @@
 {
+  "name": "@catfish/image-gallery",
+  "version": "0.1.0",
   "scripts": {
     "dev": "npm run thumbs && next dev",
     "build": "npm run thumbs && next build",
-    "export": "next export",
+    "export": "npm run thumbs && next export",
     "start": "next start",
     "thumbs": "node util/generateThumbnails.js"
   },
   "dependencies": {
-    "next": "^12.2.2",
+    "next": "^13.4.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "sharp": "^0.30.7"
+    "sharp": "^0.32.1"
   },
   "devDependencies": {
-    "@types/node": "^18.0.3",
-    "@types/react": "^18.0.15",
-    "typescript": "^4.7.4"
+    "@types/node": "^20.3.1",
+    "@types/react": "^18.2.13",
+    "typescript": "^5.1.3"
   }
 }
