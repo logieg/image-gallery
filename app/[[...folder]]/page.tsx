@@ -1,5 +1,6 @@
 import React from "react";
 import HorizontalSection from "../../components/common/HorizontalSection";
+import ScrollPreserver from "../../components/common/ScrollPreserver";
 import FolderView from "../../components/folder/FolderView";
 import ImageView from "../../components/image/ImageView";
 import { getFileData, getFolderData } from "./getData";
@@ -39,6 +40,7 @@ export default async function FolderPage({ params, searchParams }: FolderPagePro
           fileData={fileData}
         />
       )}
+      <ScrollPreserver />
     </>
   );
 }
