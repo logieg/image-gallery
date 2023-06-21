@@ -15,7 +15,7 @@ const ImageView = ({ fileName, fileData }: ImageViewProps) => {
   const pathname = usePathname();
 
   const onClose = () => {
-    router.replace(pathname);
+    router.replace(pathname, { shallow: true, scroll: false });
   };
 
   return (

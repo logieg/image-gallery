@@ -2,7 +2,7 @@ import React from "react";
 import HorizontalSection from "../../components/common/HorizontalSection";
 import FolderView from "../../components/folder/FolderView";
 import ImageView from "../../components/image/ImageView";
-import { getData } from "./getData";
+import { getFileData, getFolderData } from "./getData";
 
 interface FolderPageProps {
   params: {
@@ -19,20 +19,24 @@ export default async function FolderPage({ params, searchParams }: FolderPagePro
     : '';
   const fileName = searchParams.view || '';
 
-  const data = await getData(folderPath, fileName);
+  const folderData = await getFolderData(folderPath);
+  let fileData;
+  if (fileName.length > 0 && folderData.find(f => !f.isDirectory && f.name === fileName)) {
+    fileData = await getFileData(fileName, folderPath);
+  }
 
   return (
     <>
       <HorizontalSection width='90%'>
         <FolderView
           folderPath={folderPath}
-          list={data.folderList}
+          folderData={folderData}
         />
       </HorizontalSection>
-      {data.fileData && (
+      {fileData && (
         <ImageView
           fileName={fileName}
-          fileData={data.fileData}
+          fileData={fileData}
         />
       )}
     </>

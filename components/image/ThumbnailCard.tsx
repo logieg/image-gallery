@@ -29,6 +29,9 @@ const ThumbnailCard = ({
     <Link
       href={`${newPath}${newFile ? `?view=${newFile}` : ''}`}
       replace={!isDirectory}
+      shallow={!isDirectory}
+      prefetch={isDirectory}
+      scroll={isDirectory}
       style={{
         display: 'inline-block',
         width: '160px',

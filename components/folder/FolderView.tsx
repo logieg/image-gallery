@@ -6,7 +6,7 @@ interface FolderViewProps {
   /** The relative path to the folder to view */
   folderPath: string;
   /** An array representing the folder's contents */
-  list: Array<{
+  folderData: Array<{
     name: string,
     isDirectory: boolean
   }>;
@@ -15,7 +15,7 @@ interface FolderViewProps {
 /** Shows a collection of items representing the folder's contents */
 const FolderView = ({
   folderPath,
-  list
+  folderData,
 }: FolderViewProps) => {
   return (
     <div style={{
@@ -27,7 +27,7 @@ const FolderView = ({
         {folderPath.length > 0 ? folderPath : 'Main Folder'}
       </h2>
       {folderPath.length > 0 ? <ParentFolderButton /> : ''}
-      {list.map(file => (
+      {folderData.map(file => (
         <ThumbnailCard
           folderPath={folderPath}
           fileName={file.name}
