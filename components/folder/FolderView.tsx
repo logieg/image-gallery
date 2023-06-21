@@ -4,7 +4,7 @@ import ParentFolderButton from "./ParentFolderButton";
 
 interface FolderViewProps {
   /** The relative path to the folder to view */
-  path: string;
+  folderPath: string;
   /** An array representing the folder's contents */
   list: Array<{
     name: string,
@@ -14,7 +14,7 @@ interface FolderViewProps {
 
 /** Shows a collection of items representing the folder's contents */
 const FolderView = ({
-  path,
+  folderPath,
   list
 }: FolderViewProps) => {
   return (
@@ -24,14 +24,14 @@ const FolderView = ({
       borderRadius: '3px',
     }}>
       <h2>
-        {path.length > 0 ? path : 'Main Folder'}
+        {folderPath.length > 0 ? folderPath : 'Main Folder'}
       </h2>
-      {path.length > 0 ? <ParentFolderButton /> : ''}
+      {folderPath.length > 0 ? <ParentFolderButton /> : ''}
       {list.map(file => (
         <ThumbnailCard
-          name={file.name}
+          folderPath={folderPath}
+          fileName={file.name}
           isDirectory={file.isDirectory}
-          path={path}
           key={file.name}
         />
       ))}

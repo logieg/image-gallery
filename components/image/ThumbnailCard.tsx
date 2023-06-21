@@ -1,40 +1,34 @@
-import { useRouter } from "next/router";
+import Link from "next/link";
 import Theme from "../../data/Theme";
 import Centered from "../common/Centered";
 
 interface ThumbnailCardProps {
-  /** The name of the item this card represents */
-  name: string;
+  /** Relative path to the folder containing the item this card represents */
+  folderPath: string;
+  /** The file name of the item this card represents */
+  fileName: string;
   /** Whether this item is a folder */
   isDirectory: boolean;
-  /** Relative path to the item this card represents */
-  path?: string;
 }
 
-/**
- * A clickable display card showing a thumbnail and name for a folder item
- */
+/** A clickable display card showing a thumbnail and name for a folder item */
 const ThumbnailCard = ({
-  name,
+  folderPath,
+  fileName,
   isDirectory,
-  path,
 }: ThumbnailCardProps) => {
-  const router = useRouter();
-  const thumbName = `${name.slice(0, name.lastIndexOf('.'))}.webp`;
-  const imageSrc = isDirectory ? '/folder.svg' : `/.thumbs/${path}/${thumbName}`;
-
-  /** Open the item this card represents (show image / enter folder) */
-  const openItem = () => {
-    const newPath = isDirectory ? `${path}/${name}` : path;
-    const newFile = isDirectory ? undefined : name;
-    router.push({
-      pathname: router.pathname,
-      query: { d: newPath, f: newFile }
-    });
-  }
+  const imageSrc = isDirectory
+    ? '/folder.svg'
+    : `/.thumbs/${folderPath}/${
+        `${fileName.slice(0, fileName.lastIndexOf('.'))}.webp`
+      }`;
+  const newPath = isDirectory ? `${folderPath}/${fileName}` : folderPath;
+  const newFile = isDirectory ? undefined : fileName;
 
   return (
-    <div
+    <Link
+      href={`${newPath}${newFile ? `?view=${newFile}` : ''}`}
+      replace={!isDirectory}
       style={{
         display: 'inline-block',
         width: '160px',
@@ -44,21 +38,21 @@ const ThumbnailCard = ({
         backgroundColor: Theme.accent,
         borderRadius: '5px',
         verticalAlign: 'top',
-        cursor: 'pointer',
+        color: 'inherit',
+        textDecoration: 'none',
       }}
-      onClick={openItem}
     >
       <Centered>
         <img
           src={imageSrc}
-          alt={name}
+          alt={fileName}
           style={{ width: '100px', height: '100px' }}
         />
       </Centered>
       <p style={{ textOverflow: 'ellipsis' }}>
-        {name}
+        {fileName}
       </p>
-    </div>
+    </Link>
   );
 }
 

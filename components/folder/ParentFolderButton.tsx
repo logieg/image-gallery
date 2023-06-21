@@ -1,24 +1,20 @@
-import { useRouter } from "next/router";
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Theme from "../../data/Theme";
 
 /** Ellipsis button to ascend to the parent folder */
 const ParentFolderButton = () => {
-  const router = useRouter();
-
-  /** Go up to the parent folder */
-  const ascend = () => {
-    router.push({
-      pathname: router.pathname,
-      query: {
-        d: router.query.d.slice(0, router.query.d.lastIndexOf('/')),
-        f: undefined,
-      }
-    });
-  };
+  const pathname = usePathname();
+  const parentPath = pathname.lastIndexOf('/') > 0
+    ? pathname.slice(0, pathname.lastIndexOf('/'))
+    : '/';
 
   return (
-    <div
+    <Link
+      href={parentPath}
       style={{
+        display: 'block',
         width: 'fit-content',
         padding: '4px 12px',
         margin: '8px',
@@ -26,12 +22,12 @@ const ParentFolderButton = () => {
         borderRadius: '5px',
         fontSize: '125%',
         fontWeight: 'bold',
-        cursor: 'pointer',
+        color: 'inherit',
+        textDecoration: 'none',
       }}
-      onClick={ascend}
     >
       ...
-    </div>
+    </Link>
   );
 };
 

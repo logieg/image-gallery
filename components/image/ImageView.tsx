@@ -1,3 +1,5 @@
+"use client";
+import { usePathname, useRouter } from "next/navigation";
 import Theme from "../../data/Theme";
 
 interface ImageViewProps {
@@ -5,12 +7,17 @@ interface ImageViewProps {
   fileName: string;
   /** The base64-encoded image data URL to display */
   fileData: string;
-  /** Callback function for closing the image view */
-  onClose?: () => void;
 }
 
 /** Shows a fixed-position modal to display an image */
-const ImageView = ({ fileName, fileData, onClose }: ImageViewProps) => {
+const ImageView = ({ fileName, fileData }: ImageViewProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const onClose = () => {
+    router.replace(pathname);
+  };
+
   return (
     <div style={{ position: 'fixed', inset: '0 0 0 0' }}>
       <div style={{
