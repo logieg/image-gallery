@@ -1,5 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
+import Centered from "../common/Centered";
 import Theme from "../../data/Theme";
 
 interface ImageViewProps {
@@ -25,31 +26,42 @@ const ImageView = ({ fileName, fileData }: ImageViewProps) => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        maxHeight: '90%',
-        maxWidth: '90%',
         overflow: 'auto',
-        padding: '6px',
-        borderRadius: '3px',
-        backgroundColor: Theme.accent,
         zIndex: '100'
       }}>
-        <button onClick={onClose} style={{ float: 'left', backgroundColor: '#111', color: '#ddd' }}>
-          Close
-        </button>
-        <div style={{ textAlign: 'center', paddingBottom: '8px' }}>
-          {fileName}
+        <div style={{
+          padding: '6px',
+          borderRadius: '3px',
+          backgroundColor: Theme.accent,
+        }}>
+          <div
+            onClick={onClose}
+            style={{
+              float: 'left',
+              padding: '2px',
+              color: '#ddd',
+              fontWeight: '800',
+            }}
+          >
+            X
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            {fileName}
+          </div>
         </div>
-        <img
-          src={fileData}
-          alt={fileName}
-          style={{ maxWidth: '100%', maxHeight: '100%' }}
-        />
+        <Centered>
+          <img
+            src={fileData}
+            alt={fileName}
+            style={{ maxWidth: '90vw', maxHeight: '90vh' }}
+          />
+        </Centered>
       </div>
       <div
         style={{
           position: 'fixed',
           inset: '0 0 0 0',
-          backgroundColor: 'rgba(0,0,0,0.5)',
+          backgroundColor: 'rgba(0,0,0,0.75)',
           zIndex: '10'
         }}
         onClick={onClose}
